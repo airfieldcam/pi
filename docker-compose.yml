@@ -14,6 +14,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./config:/config
+    environment:
+      - PTZ_RELAY_URL=wss://rtmp.airfieldcam.com/ptz
 
   config-ui:
     image: airfieldcam/pi-config-ui:latest
