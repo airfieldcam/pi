@@ -1,0 +1,27 @@
+services:
+  relay:
+    image: airfieldcam/pi-relay:latest
+    container_name: pi-relay
+    restart: unless-stopped
+    volumes:
+      - ./config:/config
+    environment:
+      - CAMERA_ID=all
+
+  onvif-proxy:
+    image: airfieldcam/pi-onvif-proxy:latest
+    container_name: pi-onvif-proxy
+    restart: unless-stopped
+    volumes:
+      - ./config:/config
+
+  config-ui:
+    image: airfieldcam/pi-config-ui:latest
+    container_name: pi-config-ui
+    restart: unless-stopped
+    volumes:
+      - ./config:/config
+    ports:
+      - "8080:8080"
+    environment:
+      - FLASK_SECRET=${FLASK_SECRET}
