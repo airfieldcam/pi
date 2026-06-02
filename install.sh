@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-# ── AirfieldCam Pi Installer ──────────────────────────────────────
-# Usage: curl -fsSL https://raw.githubusercontent.com/airfieldcam/pi/main/install.sh | bash
-
 COMPOSE_URL="https://raw.githubusercontent.com/airfieldcam/pi/main/docker-compose.yml"
 INSTALL_DIR="$HOME/airfieldcam"
 
@@ -38,7 +35,7 @@ else
 fi
 
 # ── Install Docker Compose plugin ────────────────────────────────
-if docker compose version &> /dev/null; then
+if sudo docker compose version &> /dev/null; then
     echo "  ✓ Docker Compose already installed"
 else
     echo "  → Installing Docker Compose plugin..."
@@ -75,12 +72,12 @@ fi
 
 # ── Pull images ───────────────────────────────────────────────────
 echo "  → Pulling AirfieldCam images (this may take a few minutes)..."
-docker compose pull
+sudo docker compose pull
 echo "  ✓ Images downloaded"
 
 # ── Start services ────────────────────────────────────────────────
 echo "  → Starting services..."
-docker compose up -d
+sudo docker compose up -d
 echo "  ✓ Services started"
 
 # ── Get IP address ────────────────────────────────────────────────
@@ -100,11 +97,3 @@ echo "  ║  first visit.                                     ║"
 echo "  ║                                                   ║"
 echo "  ╚═══════════════════════════════════════════════════╝"
 echo ""
-
-# ── Note about docker group ───────────────────────────────────────
-if ! groups $USER | grep -q docker; then
-    echo "  NOTE: You may need to log out and back in for Docker"
-    echo "  permissions to take effect, then run:"
-    echo "  cd ~/airfieldcam && docker compose up -d"
-    echo ""
-fi
